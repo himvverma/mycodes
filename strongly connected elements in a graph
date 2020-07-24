@@ -1,0 +1,81 @@
+void dfs1(vector<int >adj[],int v,bool visited[],stack<int>&s)
+{
+    visited[v]=true;
+   
+    for(int i=0;i<adj[v].size();i++)
+    {
+        if(visited[i]==false)
+        {
+            dfs1(adj,adj[v][i],visited,s);
+        }
+    }
+     s.push(v);
+}
+void dfs2(vector<int>adj[],int v,bool visited[])
+{
+    visited[v]=true;
+    for(int i=0;i<adj[v].size();i++)
+    {
+        if(visited[i]==false)
+        {
+            dfs2(adj,adj[v][i],visited);
+        }
+    }
+}
+void transpose(vector<int>adj[],int V) 
+{ 
+   vector<int>g[V];
+    for (int v = 0; v < V; v++) 
+    {
+        vector<int>::iterator it; 
+        for( it =adj[v].begin(); it != adj[v].end(); ++it) 
+        { 
+           g[*it].push_back(v); 
+        } 
+    } 
+ // clear purana array of vectors
+  for (int v = 0; v < V; v++) 
+    {
+         adj[v].clear();
+    }
+ // copy from naya g to purana adj kyuki void function h    
+  for (int v = 0; v < V; v++) 
+    {
+        vector<int>::iterator it; 
+        for( it =g[v].begin(); it != g[v].end(); ++it) 
+        {
+           adj[v].push_back(*it); 
+        } 
+    } 
+} 
+int kosaraju(int V, vector<int> adj[])
+{
+bool visited[V];
+stack<int >s;
+for(int i=0;i<V;i++)
+{
+    visited[i]=false;
+}
+int count=0;
+for(int i=0;i<V;i++)
+{
+    if(!visited[i])
+    {
+        dfs1(adj,i,visited,s);
+    }
+}
+ for(int i = 0; i < V; i++) 
+        {visited[i] = false; 
+        }
+transpose(adj,V);
+
+while (!s.empty()) {  
+           int v =s.top(); 
+           s.pop();
+            if (visited[v]==false) {
+                dfs2(adj,v,visited);
+                count++;
+            }
+        }  
+return count;
+}
