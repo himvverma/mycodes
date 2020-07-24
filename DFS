@@ -1,0 +1,35 @@
+//made a DFS function which take arguments as graph(vector of vector) and number of vertices only two arguments
+//So I had to make another function to 
+
+
+void recDFS(vector<int> g[],int v,vector<int >&ans,bool visited[])
+{
+    visited[v]=true;
+   ans.push_back(v);
+    vector<int>::iterator i;
+    for(i=g[v].begin();i!=g[v].end();i++)
+    {
+        if(!visited[*i])
+        {
+          recDFS(g,*i,ans,visited);
+        }
+    }
+}
+vector<int> dfs(vector<int> g[], int N)
+{
+bool visited[N];
+vector<int >ans;
+for(int i=0;i<N;i++)
+{
+    visited[i]=false;
+}
+int v=0;
+for(int i=0;i<N;i++)
+{
+     if(!visited[i]){
+            recDFS(g,v,ans,visited);
+        }
+}
+return ans;
+
+}
